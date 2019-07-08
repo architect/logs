@@ -1,0 +1,5 @@
+test/
+.eslintignore
+.eslintrc.js
+.travis.yml
+appveyor.yml

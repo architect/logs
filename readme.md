@@ -1,0 +1,72 @@
+# `@architect/logs`
+
+[@architect/logs][npm] is a module that retrieves and clears logs associated to
+your @architect functions across environments.
+
+## Installation
+
+    npm i @architect/logs
+    let logs = require('@architect/logs')
+
+# API
+
+## `logs({pathToCode, verbose, nuke, production}, callback)`
+
+Takes a parameter object as first argument which accepts the following properties:
+
+- `pathToCode`: **required** the local path to architect Function code relative
+    to the current working directory, i.e. `src/http/get-index`
+- `verbose`: verbose super chatty mode
+- `nuke`: if truthy will delete logs via [`logs.nuke`][nuke], otherwise will
+    read logs via [`logs.read`][read]
+- `production`: if truthy will target your arc project's production environment,
+    otherwise will default to staging
+
+By default will [read][read] logs from the staging environment. If the `nuke`
+property is truthy, logs instead will be [nuked][nuke].
+
+## `logs.read({name, pathToCode, ts}, callback)`
+
+Will read logs from [`aws.CloudWatchLogs`][cloudwatchlogs], invoking
+[`getLogEvents`][getlogevents] for log retrieval.
+
+Takes a parameter object as first argument which accepts the following properties:
+
+- `name`: the CloudFormation `StackName` passed to
+    [`listStackResources`][liststack] within which to search Function logs. Note
+    that this is inferred from your application name, environment and specific
+    function you are querying - tread carefully!
+- `pathToCode`: **required** the local path to architect Function code relative
+    to the current working directory, i.e. `src/http/get-index`
+- `ts`: timestamp to use as a start time for displaying length of time details
+    (i.e. `Date.now()`)
+
+`callback` will be invoked with an error if an error arises during execution.
+Otherwise, `callback` will be invoked without arguments.
+
+## `logs.nuke({name, pathToCode, ts}, callback)`
+
+Will delete logs from [`aws.CloudWatchLogs`][cloudwatchlogs], invoking
+[`deleteLogGroup`][deleteloggroup].
+
+Takes a parameter object as first argument which accepts the following properties:
+
+- `name`: the CloudFormation `StackName` passed to
+    [`listStackResources`][liststack] within which to search Function logs. Note
+    that this is inferred from your application name, environment and specific
+    function you are querying - tread carefully!
+- `pathToCode`: **required** the local path to architect Function code relative
+    to the current working directory, i.e. `src/http/get-index`
+- `ts`: timestamp to use as a start time for displaying length of time details
+    (i.e. `Date.now()`)
+
+`callback` will be invoked with an error if an error arises during execution.
+Otherwise, `callback` will be invoked without arguments.
+
+[npm]: https://www.npmjs.com/package/@architect/logs
+[read]: #logsreadnamepathtocodetscallback
+[nuke]: #logsnukenamepathtocodetscallback
+[liststack]: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudFormation.html#listStackResources-property
+[cloudwatchlogs]: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html
+[getlogevents]: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html#getLogEvents-property
+[deleteloggroup]: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html#deleteLogGroup-property
