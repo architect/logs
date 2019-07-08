@@ -1,4 +1,4 @@
-# `@architect/logs`
+# `@architect/logs` [![Travis Build Status](https://travis-ci.com/architect/logs.svg?branch=master)](https://travis-ci.com/architect/logs) [![Build status](https://ci.appveyor.com/api/projects/status/ynd4ky85b5fp2iyf/branch/master?svg=true)](https://ci.appveyor.com/project/ArchitectCI/logs/branch/master)
 
 [@architect/logs][npm] is a module that retrieves and clears logs associated to
 your @architect functions across environments.
