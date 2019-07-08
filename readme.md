@@ -64,8 +64,8 @@ Takes a parameter object as first argument which accepts the following propertie
 Otherwise, `callback` will be invoked without arguments.
 
 [npm]: https://www.npmjs.com/package/@architect/logs
-[read]: #logsreadnamepathtocodetscallback
-[nuke]: #logsnukenamepathtocodetscallback
+[read]: #logsreadname-pathtocode-ts-callback
+[nuke]: #logsnukename-pathtocode-ts-callback
 [liststack]: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudFormation.html#listStackResources-property
 [cloudwatchlogs]: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html
 [getlogevents]: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html#getLogEvents-property
