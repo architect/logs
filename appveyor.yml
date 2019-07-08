@@ -32,7 +32,7 @@ init:
   - git config --global core.autocrlf input
 
 # clone directory
-clone_folder: c:\projects\repl
+clone_folder: c:\projects\logs
 
 # fetch repository as zip archive
 shallow_clone: true                 # default is "false"
