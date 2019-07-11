@@ -3,3 +3,5 @@ test/
 .eslintrc.js
 .travis.yml
 appveyor.yml
+codecov.yaml
+coverage/
