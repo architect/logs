@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm run lint && npm run test:unit",
     "test:unit": "tape test/*-tests.js | tap-spec",
-    "coverage": "istanbul cover tape test/*-tests.js", 
+    "coverage": "istanbul cover tape test/*-tests.js",
     "lint": "eslint . --fix --ignore-pattern node_modules"
   },
   "repository": {
