@@ -1,4 +1,6 @@
 test/
+.github
+.nyc_output
 .eslintignore
 .eslintrc.js
 .travis.yml
