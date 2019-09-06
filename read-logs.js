@@ -35,7 +35,7 @@ module.exports = function readLogs({name, pathToCode, ts}, callback) {
 }
 
 function read(name, callback) {
-  let cloud = new aws.CloudWatchLogs
+  let cloud = new aws.CloudWatchLogs({region: process.env.AWS_REGION})
   waterfall([
 
     function describeLogStreams(callback) {

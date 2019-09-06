@@ -4,7 +4,7 @@ let getPhysicalID = require('./get-physical-id')
 let pretty = require('./pretty-print')
 
 module.exports = function nukeLogs({name, pathToCode, ts}, callback) {
-  let cloud = new aws.CloudWatchLogs
+  let cloud = new aws.CloudWatchLogs({region: process.env.AWS_REGION})
   let folder = pathToCode.split('/').filter(Boolean).reverse().shift()
   let logicalID = utils.toLogicalID(folder)
   getPhysicalID({

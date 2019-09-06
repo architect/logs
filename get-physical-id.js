@@ -8,7 +8,7 @@ let aws = require('aws-sdk')
  * @param {logicalID} params.logicalID - the logical id of the function
  */
 module.exports = function getPhysicalID({name, logicalID}, callback) {
-  let cloudformation = new aws.CloudFormation
+  let cloudformation = new aws.CloudFormation({region: process.env.AWS_REGION})
   cloudformation.listStackResources({
     StackName: name
   },
