@@ -23,6 +23,7 @@ jobs:
 
     - name: Versions
       run: node --version
+      run: echo ${{ github.ref }}
 
     - name: Install
       run: npm install
