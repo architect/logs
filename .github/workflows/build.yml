@@ -1,12 +1,12 @@
 name: Node CI
 
 on:
-  push:
-    tags-ignore:
-      - *
-  pull_request:
-    tags-ignore:
-      - *
+  - push:
+      tags-ignore:
+        - *
+  - pull_request:
+      tags-ignore:
+        - *
 
 jobs:
   # Test the build
