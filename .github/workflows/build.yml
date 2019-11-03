@@ -23,7 +23,10 @@ jobs:
 
     - name: Versions
       run: node --version
-      run: echo ${{ github.ref }}
+
+    - run: echo ${{ github.ref }}
+    - run: echo ${{ github.event_name }}
+    - run: echo ${{ github.event.action }}
 
     - name: Install
       run: npm install
