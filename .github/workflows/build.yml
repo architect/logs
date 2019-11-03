@@ -1,23 +1,18 @@
 name: Node CI
 
-on:
-  - push:
-      tags-ignore:
-        - *
-  - pull_request:
-      tags-ignore:
-        - *
+on: [push, pull_request, release]
 
 jobs:
   # Test the build
   build:
+    # Setup
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [8.x, 10.x, 12.x]
         os: [windows-latest, ubuntu-latest, macOS-latest]
 
+    # Go
     steps:
     - uses: actions/checkout@v1
 
@@ -34,3 +29,40 @@ jobs:
 
     - name: Test
       run: npm test
+
+  # Publish to npm
+  publish-npm:
+    needs: build
+    if: github.event_name == 'release' && github.event.action == 'created'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - name: test
+        run: echo hellooooo there
+      # - name: Install
+      #   run: npm ci
+      # - name: Publish
+      #   run: npm publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+
+  # publish-gpr:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - uses: actions/setup-node@v1
+  #       with:
+  #         node-version: 12
+  #         registry-url: https://npm.pkg.github.com/
+  #         scope: '@architect'
+  #     - name: Install
+  #       run: npm ci
+  #     - name: Publish
+  #       run: npm publish
+  #       env:
+  #         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
