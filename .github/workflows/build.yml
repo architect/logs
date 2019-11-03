@@ -33,7 +33,8 @@ jobs:
   # Publish to npm
   publish-npm:
     needs: build
-    if: github.event_name == 'release' && github.event.action == 'created'
+    if: github.ref == 'refs/heads/ghci'
+    # if: github.event_name == 'release' && github.event.action == 'created'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
