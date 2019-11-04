@@ -57,14 +57,14 @@ jobs:
         # run: echo this is an @RC release!
         run: npm publish --tag RC
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish @latest to npm
         if: contains(github.ref, 'RC') == false #'!contains()'' doesn't work lol
         run: echo this is an @latest release!
         # run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       # Set up Node again, this time using GitHub as the publish target
       - uses: actions/setup-node@v1
