@@ -1,4 +1,4 @@
-# `@architect/logs` [![GitHub CI status](https://github.com/architect/logs/workflows/Node%20CI/badge.svg?branch=master)](https://github.com/architect/logs/actions?query=workflow%3A%22Node+CI%22)
+# `@architect/logs` [![GitHub CI status](https://github.com/architect/logs/workflows/Node%20CI/badge.svg)](https://github.com/architect/logs/actions?query=workflow%3A%22Node+CI%22)
 <!-- [![codecov](https://codecov.io/gh/architect/logs/branch/master/graph/badge.svg)](https://codecov.io/gh/architect/logs) -->
 
 [@architect/logs][npm] is a module that retrieves and clears logs associated to
