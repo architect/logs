@@ -31,7 +31,7 @@ jobs:
     - run: echo startswith == 'true' - ${{ startsWith(github.ref, 'refs/tags/v') == 'true' }}
     - run: echo startswith == true - ${{ startsWith(github.ref, 'refs/tags/v') == true }}
     - run: echo startswith == 'false' - ${{ startsWith(github.ref, 'refs/tags/v') == 'false' }}
-    - run: echo startswith == false - echo ${{ startsWith(github.ref, 'refs/tags/v') == false }}
+    - run: echo startswith == false - ${{ startsWith(github.ref, 'refs/tags/v') == false }}
 
     - name: Install
       run: npm install
