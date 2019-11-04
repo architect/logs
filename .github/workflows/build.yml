@@ -3,6 +3,7 @@ name: Node CI
 on: [push, pull_request, create]
 
 jobs:
+
   # Test the build
   build:
     # Setup
@@ -24,28 +25,22 @@ jobs:
     - name: Versions
       run: node --version
 
-    - run: echo ${{ github.ref }}
-    - run: echo ${{ github.event_name }}
-    - run: echo ${{ github.event.action }}
-    - run: echo ${{ startsWith(github.ref, 'refs/tags/v')}}
-    - run: echo ${{ startsWith(github.ref, 'refs/tags/v') == 'true' }}
-    - run: echo ${{ startsWith(github.ref, 'refs/tags/v') == true }}
-    - run: echo ${{ startsWith(github.ref, 'refs/tags/v') == 'false' }}
-    - run: echo ${{ startsWith(github.ref, 'refs/tags/v') == false }}
-
     - name: Install
       run: npm install
 
     - name: Test
       run: npm test
 
+  # ----- Only proceed beyond this point for new git tags ----- #
+
   # Publish to npm
   publish-npm:
+    # Setup
     needs: build
-    # if: github.ref == 'refs/heads/ghci'
-    # if: github.event_name == 'release' && github.event.action == 'created'
     if: github.event_name == 'create' && startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
+
+    # Go
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
@@ -53,33 +48,52 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
 
-      - name: Publish RC
-        if: contains(github.ref, 'RC') == true
+      - name: Install
+        run: npm ci
+
+      - name: Publish @RC
+        if: contains(github.ref, 'RC')
         run: echo this is an @RC release!
+        # run: npm publish --tag RC
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
 
-      - name: Publish latest
-        if: contains(github.ref, 'RC') == false #'!contains()'' won't work lol
-        run: echo this is an @latest release (alt)!
-      # - name: Install
-      #   run: npm ci
-      # - name: Publish
-      #   run: npm publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+      - name: Publish @latest
+        if: contains(github.ref, 'RC') == false #'!contains()'' doesn't work lol
+        run: echo this is an @latest release!
+        # run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
 
-  # publish-gpr:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v1
-  #     - uses: actions/setup-node@v1
-  #       with:
-  #         node-version: 12
-  #         registry-url: https://npm.pkg.github.com/
-  #         scope: '@architect'
-  #     - name: Install
-  #       run: npm ci
-  #     - name: Publish
-  #       run: npm publish
-  #       env:
-  #         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  # Publish to GitHub
+  publish-gpr:
+    # Setup
+    needs: build
+    if: github.event_name == 'create' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+
+    # Go
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+          scope: '@architect'
+
+      - name: Install
+        run: npm ci
+
+      - name: Publish @RC
+        if: contains(github.ref, 'RC')
+        run: echo this is an @RC release!
+        # run: npm publish --tag RC
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN }}
+
+      - name: Publish @latest
+        if: contains(github.ref, 'RC') == false #'!contains()'' doesn't work lol
+        run: echo this is an @latest release!
+        # run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN }}
