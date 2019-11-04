@@ -56,15 +56,15 @@ jobs:
         run: echo this is an @RC release!
 
       - name: Publish RC (alt syntax)
-        if: contains(github.ref, 'RC') == true
+        if: contains(github.ref, 'RC') == 'true'
         run: echo this is an @RC release!
 
       - name: Publish latest
-        if: !contains(github.ref, 'RC')
+        if: contains(github.ref, 'RC')
         run: echo this is an @latest release!
 
       - name: Publish latest (alt syntax)
-        if: contains(github.ref, 'RC') == false
+        if: contains(github.ref, 'RC') == 'false'
         run: echo this is an @latest release (alt)!
       # - name: Install
       #   run: npm ci
