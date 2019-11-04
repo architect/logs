@@ -71,3 +71,4 @@ Otherwise, `callback` will be invoked without arguments.
 [cloudwatchlogs]: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html
 [getlogevents]: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html#getLogEvents-property
 [deleteloggroup]: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html#deleteLogGroup-property
+hi
