@@ -1,4 +1,5 @@
-# `@architect/logs` [![Travis Build Status](https://travis-ci.com/architect/logs.svg?branch=master)](https://travis-ci.com/architect/logs) [![Build status](https://ci.appveyor.com/api/projects/status/ynd4ky85b5fp2iyf/branch/master?svg=true)](https://ci.appveyor.com/project/ArchitectCI/logs/branch/master) [![codecov](https://codecov.io/gh/architect/logs/branch/master/graph/badge.svg)](https://codecov.io/gh/architect/logs)
+# `@architect/logs` [![GitHub CI status](https://github.com/architect/logs/workflows/Node%20CI/badge.svg?branch=master)](https://github.com/architect/logs/actions?query=workflow%3A%22Node+CI%22)
+<!-- [![codecov](https://codecov.io/gh/architect/logs/branch/master/graph/badge.svg)](https://codecov.io/gh/architect/logs) -->
 
 [@architect/logs][npm] is a module that retrieves and clears logs associated to
 your @architect functions across environments.
