@@ -37,8 +37,8 @@ jobs:
   # Publish to npm
   publish-npm:
     needs: build
-    if: github.ref == 'refs/heads/ghci'
-    # if: github.event_name == 'release' && github.event.action == 'created'
+    # if: github.ref == 'refs/heads/ghci'
+    if: github.event_name == 'release' && github.event.action == 'created'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -46,8 +46,26 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - name: test
-        run: echo hellooooo there
+
+      # can i do this?
+      - name: testing
+        run: echo ${{ contains(github.ref, 'RC') }}
+
+      - name: Publish RC
+        if: contains(github.ref, 'RC')
+        run: echo this is an @RC release!
+
+      - name: Publish RC (alt syntax)
+        if: contains(github.ref, 'RC') == true
+        run: echo this is an @RC release!
+
+      - name: Publish latest
+        if: !contains(github.ref, 'RC')
+        run: echo this is an @latest release!
+
+      - name: Publish latest (alt syntax)
+        if: contains(github.ref, 'RC') == false
+        run: echo this is an @latest release (alt)!
       # - name: Install
       #   run: npm ci
       # - name: Publish
