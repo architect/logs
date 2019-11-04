@@ -33,8 +33,8 @@ jobs:
 
   # ----- Only proceed beyond this point for new git tags ----- #
 
-  # Publish to npm
-  publish-npm:
+  # Publish to package registries
+  publish:
     # Setup
     needs: build
     if: github.event_name == 'create' && startsWith(github.ref, 'refs/tags/v')
@@ -51,49 +51,71 @@ jobs:
       - name: Install
         run: npm ci
 
-      - name: Publish @RC
+      # Publish to npm
+      - name: Publish @RC to npm
         if: contains(github.ref, 'RC')
         run: echo this is an @RC release!
         # run: npm publish --tag RC
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
 
-      - name: Publish @latest
+      - name: Publish @latest to npm
         if: contains(github.ref, 'RC') == false #'!contains()'' doesn't work lol
         run: echo this is an @latest release!
         # run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
 
-  # Publish to GitHub
-  publish-gpr:
-    # Setup
-    needs: build
-    if: github.event_name == 'create' && startsWith(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-latest
-
-    # Go
-    steps:
-      - uses: actions/checkout@v1
+      # Set up Node again, this time using GitHub as the publish target
       - uses: actions/setup-node@v1
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
-          scope: '@architect'
 
-      - name: Install
-        run: npm ci
-
-      - name: Publish @RC
+      # Publish to GitHub
+      - name: Publish @RC to GitHub
         if: contains(github.ref, 'RC')
         run: echo this is an @RC release!
         # run: npm publish --tag RC
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish @latest
+      - name: Publish @latest to GitHub
         if: contains(github.ref, 'RC') == false #'!contains()'' doesn't work lol
         run: echo this is an @latest release!
         # run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # # Publish to GitHub
+  # publish-gpr:
+  #   # Setup
+  #   needs: build
+  #   if: github.event_name == 'create' && startsWith(github.ref, 'refs/tags/v')
+  #   runs-on: ubuntu-latest
+
+  #   # Go
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - uses: actions/setup-node@v1
+  #       with:
+  #         node-version: 12
+  #         registry-url: https://npm.pkg.github.com/
+  #         scope: '@architect'
+
+  #     - name: Install
+  #       run: npm ci
+
+  #     - name: Publish @RC
+  #       if: contains(github.ref, 'RC')
+  #       run: echo this is an @RC release!
+  #       # run: npm publish --tag RC
+  #       env:
+  #         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN }}
+
+  #     - name: Publish @latest
+  #       if: contains(github.ref, 'RC') == false #'!contains()'' doesn't work lol
+  #       run: echo this is an @latest release!
+  #       # run: npm publish
+  #       env:
+  #         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN }}
