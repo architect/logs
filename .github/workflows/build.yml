@@ -24,14 +24,14 @@ jobs:
     - name: Versions
       run: node --version
 
-    - run: echo ${{ github.ref }}
-    - run: echo ${{ github.event_name }}
-    - run: echo ${{ github.event.action }}
-    - run: echo ${{ startsWith(github.ref, 'refs/tags/v')}}
-    - run: echo ${{ startsWith(github.ref, 'refs/tags/v') == 'true' }}
-    - run: echo ${{ startsWith(github.ref, 'refs/tags/v') == true }}
-    - run: echo ${{ startsWith(github.ref, 'refs/tags/v') == 'false' }}
-    - run: echo ${{ startsWith(github.ref, 'refs/tags/v') == false }}
+    - run: echo ref - ${{ github.ref }}
+    - run: echo event name - ${{ github.event_name }}
+    - run: echo event action - ${{ github.event.action }}
+    - run: echo startswith plain - ${{ startsWith(github.ref, 'refs/tags/v')}}
+    - run: echo startswith == 'true' - ${{ startsWith(github.ref, 'refs/tags/v') == 'true' }}
+    - run: echo startswith == true - ${{ startsWith(github.ref, 'refs/tags/v') == true }}
+    - run: echo startswith == 'false' - ${{ startsWith(github.ref, 'refs/tags/v') == 'false' }}
+    - run: echo startswith == false - echo ${{ startsWith(github.ref, 'refs/tags/v') == false }}
 
     - name: Install
       run: npm install
@@ -53,24 +53,12 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
 
-      # can i do this?
-      - name: testing
-        run: echo ${{ contains(github.ref, 'RC') }}
-
       - name: Publish RC
-        if: contains(github.ref, 'RC')
-        run: echo this is an @RC release!
-
-      - name: Publish RC (alt syntax)
-        if: contains(github.ref, 'RC') == 'true'
+        if: contains(github.ref, 'RC') == true
         run: echo this is an @RC release!
 
       - name: Publish latest
-        if: contains(github.ref, 'RC')
-        run: echo this is an @latest release!
-
-      - name: Publish latest (alt syntax)
-        if: contains(github.ref, 'RC') == 'false'
+        if: contains(github.ref, 'RC') == false #'!contains()'' won't work lol
         run: echo this is an @latest release (alt)!
       # - name: Install
       #   run: npm ci
