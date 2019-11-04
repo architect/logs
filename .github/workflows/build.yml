@@ -1,5 +1,6 @@
 name: Node CI
 
+# Push tests pushes; PR tests merges; create tests tags (and releases)
 on: [push, pull_request, create]
 
 jobs:
@@ -10,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10.x] #[8.x, 10.x, 12.x]
-        os: [ubuntu-latest] #[windows-latest, ubuntu-latest, macOS-latest]
+        node-version: [8.x, 10.x, 12.x]
+        os: [windows-latest, ubuntu-latest, macOS-latest]
 
     # Go
     steps:
@@ -31,7 +32,7 @@ jobs:
     - name: Test
       run: npm test
 
-  # ----- Only proceed beyond this point for new git tags ----- #
+  # ----- Only git tag testing + package publishing beyond this point ----- #
 
   # Publish to package registries
   publish:
@@ -54,15 +55,13 @@ jobs:
       # Publish to npm
       - name: Publish @RC to npm
         if: contains(github.ref, 'RC')
-        # run: echo this is an @RC release!
         run: npm publish --tag RC
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish @latest to npm
         if: contains(github.ref, 'RC') == false #'!contains()'' doesn't work lol
-        run: echo this is an @latest release!
-        # run: npm publish
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -75,14 +74,12 @@ jobs:
       # Publish to GitHub
       - name: Publish @RC to GitHub
         if: contains(github.ref, 'RC')
-        # run: echo this is an @RC release!
         run: npm publish --tag RC
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish @latest to GitHub
         if: contains(github.ref, 'RC') == false #'!contains()'' doesn't work lol
-        run: echo this is an @latest release!
-        # run: npm publish
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
