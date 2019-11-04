@@ -24,14 +24,14 @@ jobs:
     - name: Versions
       run: node --version
 
-    - run: echo ref - ${{ github.ref }}
-    - run: echo event name - ${{ github.event_name }}
-    - run: echo event action - ${{ github.event.action }}
-    - run: echo startswith plain - ${{ startsWith(github.ref, 'refs/tags/v')}}
-    - run: echo startswith == 'true' - ${{ startsWith(github.ref, 'refs/tags/v') == 'true' }}
-    - run: echo startswith == true - ${{ startsWith(github.ref, 'refs/tags/v') == true }}
-    - run: echo startswith == 'false' - ${{ startsWith(github.ref, 'refs/tags/v') == 'false' }}
-    - run: echo startswith == false - ${{ startsWith(github.ref, 'refs/tags/v') == false }}
+    - run: echo ${{ github.ref }}
+    - run: echo ${{ github.event_name }}
+    - run: echo ${{ github.event.action }}
+    - run: echo ${{ startsWith(github.ref, 'refs/tags/v')}}
+    - run: echo ${{ startsWith(github.ref, 'refs/tags/v') == 'true' }}
+    - run: echo ${{ startsWith(github.ref, 'refs/tags/v') == true }}
+    - run: echo ${{ startsWith(github.ref, 'refs/tags/v') == 'false' }}
+    - run: echo ${{ startsWith(github.ref, 'refs/tags/v') == false }}
 
     - name: Install
       run: npm install
