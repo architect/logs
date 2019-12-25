@@ -1,4 +1,5 @@
 let logs = require('.')
+let validate = require('./src/validate')
 
 let known = 'logs -v --verbose verbose -n --nuke nuke -p --production production prod'.split(' ')
 let verboseFlags = '-v --verbose verbose'.split(' ')
@@ -12,6 +13,8 @@ let productionFlags = '-p --production production prod'.split(' ')
  * arc logs nuke production src/http/get-index ... clear staging logs
  */
 module.exports = function cli(opts) {
+  // Validate for expected env and check for potential creds issues
+  validate()
 
   let pathToCode = opts.find(opt=> !known.includes(opt))
   let verbose = opts.some(opt=> verboseFlags.includes(opt))

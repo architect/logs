@@ -1,9 +1,9 @@
 let fs = require('fs')
 let utils = require('@architect/utils')
 let path = require('path')
-let pretty = require('./pretty-print')
-let nukeLogs = require('./nuke-logs')
-let readLogs = require('./read-logs')
+let pretty = require('./src/pretty-print')
+let nukeLogs = require('./src/nuke-logs')
+let readLogs = require('./src/read-logs')
 
 /**
  * arc logs src/http/get-index ................... gets staging logs
