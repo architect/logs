@@ -1,7 +1,7 @@
 let test = require('tape')
 let sinon = require('sinon')
 let logs = require('../')
-let pretty = require('../pretty-print')
+let pretty = require('../src/pretty-print')
 let fs = require('fs')
 
 process.chdir(__dirname)
