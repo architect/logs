@@ -1,13 +1,13 @@
-let utils = require('@architect/utils')
 let aws = require('aws-sdk')
 let parallel = require('run-parallel')
 let waterfall = require('run-waterfall')
 let getPhysicalID = require('./get-physical-id')
 let pretty = require('./pretty-print')
+let getLogicalID = require('./get-logical-id')
 
 module.exports = function readLogs({name, pathToCode, ts}, callback) {
-  let folder = pathToCode.split('/').filter(Boolean).reverse().shift()
-  let logicalID = utils.toLogicalID(folder.replace(/000/g, ''))
+  let logicalID = getLogicalID(pathToCode)
+
   getPhysicalID({
     name,
     logicalID

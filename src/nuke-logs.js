@@ -1,12 +1,12 @@
-let utils = require('@architect/utils')
 let aws = require('aws-sdk')
 let getPhysicalID = require('./get-physical-id')
 let pretty = require('./pretty-print')
+let getLogicalID = require('./get-logical-id')
 
 module.exports = function nukeLogs({name, pathToCode, ts}, callback) {
   let cloud = new aws.CloudWatchLogs({region: process.env.AWS_REGION})
-  let folder = pathToCode.split('/').filter(Boolean).reverse().shift()
-  let logicalID = utils.toLogicalID(folder)
+  let logicalID = getLogicalID(pathToCode)
+
   getPhysicalID({
     name,
     logicalID
