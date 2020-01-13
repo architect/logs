@@ -1,6 +1,6 @@
 {
   "name": "@architect/logs",
-  "version": "1.0.7",
+  "version": "1.0.8-RC.0",
   "description": "Manage logging from Architect-provisioned cloud functions",
   "main": "index.js",
   "scripts": {
