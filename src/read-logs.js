@@ -5,14 +5,14 @@ let getPhysicalID = require('./get-physical-id')
 let pretty = require('./pretty-print')
 let getLogicalID = require('./get-logical-id')
 
-module.exports = function readLogs({name, pathToCode, ts}, callback) {
+module.exports = function readLogs ({ name, pathToCode, ts }, callback) {
   let logicalID = getLogicalID(pathToCode)
 
   getPhysicalID({
     name,
     logicalID
   },
-  function done(err, found) {
+  function done (err, found) {
     if (err) {
       callback(err)
     }
@@ -22,7 +22,7 @@ module.exports = function readLogs({name, pathToCode, ts}, callback) {
     }
     else {
       let logGroup = '/aws/lambda/' + found
-      read(logGroup, function done(err, events) {
+      read(logGroup, function done (err, events) {
         if (err) callback(err)
         else {
           pretty.printLogs(events)
@@ -34,11 +34,11 @@ module.exports = function readLogs({name, pathToCode, ts}, callback) {
   })
 }
 
-function read(name, callback) {
-  let cloud = new aws.CloudWatchLogs({region: process.env.AWS_REGION})
+function read (name, callback) {
+  let cloud = new aws.CloudWatchLogs({ region: process.env.AWS_REGION })
   waterfall([
 
-    function describeLogStreams(callback) {
+    function describeLogStreams (callback) {
       cloud.describeLogStreams({
         logGroupName: name,
         descending: true,
@@ -46,10 +46,10 @@ function read(name, callback) {
       }, callback)
     },
 
-    function getLogEvents(result, callback) {
-      var names = result.logStreams.map(l=> l.logStreamName).reverse()
-      parallel(names.map(logStreamName=> {
-        return function getOneLogEventStream(callback) {
+    function getLogEvents (result, callback) {
+      var names = result.logStreams.map(l => l.logStreamName).reverse()
+      parallel(names.map(logStreamName => {
+        return function getOneLogEventStream (callback) {
           cloud.getLogEvents({
             logGroupName: name,
             logStreamName,
@@ -58,12 +58,12 @@ function read(name, callback) {
       }), callback)
     },
 
-    function cleanup(results, callback) {
+    function cleanup (results, callback) {
       if (results.length === 0) {
         callback(null, results)
       }
       else {
-        let events = results.map(r=>r.events).reduce((a, b)=> a.concat(b))
+        let events = results.map(r => r.events).reduce((a, b) => a.concat(b))
         callback(null, events)
       }
     }

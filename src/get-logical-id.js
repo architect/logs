@@ -6,7 +6,7 @@ module.exports = function getLogicalID (pathToCode) {
 
   if (pathToCode.includes('/ws/')) {
     // Websocket logical ids are prefixed with "Websocket"
-    logicalID = "Websocket" + logicalID
+    logicalID = 'Websocket' + logicalID
   }
 
   return logicalID

@@ -15,11 +15,11 @@ let readLogs = require('./src/read-logs')
  * @param {Function} callback - a node-style errback
  * @returns {Promise} - if no callback is supplied
  */
-module.exports = function logs(params={}, callback) {
+module.exports = function logs (params = {}, callback) {
   let promise
   if (!callback) {
-    promise = new Promise(function ugh(res, rej) {
-      callback = function errback(err, result) {
+    promise = new Promise(function ugh (res, rej) {
+      callback = function errback (err, result) {
         if (err) rej(err)
         else res(result)
       }
@@ -32,9 +32,9 @@ module.exports = function logs(params={}, callback) {
   let exists = (typeof pathToCode != 'undefined' && fs.existsSync(path.join(process.cwd(), pathToCode)))
 
   // config
-  let {arc} = utils.readArc()
+  let { arc } = utils.readArc()
   let appname = arc.app[0]
-  let name = `${utils.toLogicalID(appname)}${production? 'Production' : 'Staging'}`
+  let name = `${utils.toLogicalID(appname)}${production ? 'Production' : 'Staging'}`
 
   // flow
   if (!exists) {

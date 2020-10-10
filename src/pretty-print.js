@@ -3,25 +3,25 @@ let strftime = require('strftime')
 
 module.exports = {
 
-  success(ts) {
+  success (ts) {
     let check = chalk.green('✓')
     let msg = chalk.grey('Logs')
-    let time = chalk.green.bold((Date.now() - ts)/1000 + ' seconds')
+    let time = chalk.green.bold((Date.now() - ts) / 1000 + ' seconds')
     console.log(check, msg, time)
   },
 
-  notFound(pathToCode) {
+  notFound (pathToCode) {
     let red = chalk.bgRed.bold.white
     let yel = chalk.yellow
     console.log(red('Not found!'), yel('Cannot find logs for ' + pathToCode))
   },
 
-  printLogs(events) {
+  printLogs (events) {
     // chronological (most recent at end of output)
     let sort = (a, b) => (new Date(a.timestamp) - new Date(b.timestamp))
-    events.sort(sort).forEach(event=> {
+    events.sort(sort).forEach(event => {
       // make the timestamp friendly to read
-      //let left = new Date(event.timestamp).toISOString().replace(/T|Z/g, ' ').trim()
+      // let left = new Date(event.timestamp).toISOString().replace(/T|Z/g, ' ').trim()
       let left = strftime('%b %d, %r', new Date(event.timestamp))
       // parse out the cloudwatch messages
       let right = event.message.replace(/(^\n|\n$)/g, '').split('\t').splice(2)
@@ -31,10 +31,10 @@ module.exports = {
         // print the timestamp
         console.log(chalk.cyan(left))
         // filter empties, walk each message
-        right.filter(Boolean).forEach(item=> {
+        right.filter(Boolean).forEach(item => {
           // check for an error
           let isErr = /error/gi.test(item)
-          let color = isErr? chalk.bold.red : chalk.grey
+          let color = isErr ? chalk.bold.red : chalk.grey
           // try to parse json logs
           try {
             let json = JSON.parse(item.trim())
@@ -47,7 +47,7 @@ module.exports = {
               console.log(color(JSON.stringify(json, null, 2)))
             }
           }
-          catch(e) {
+          catch (e) {
             // not json, just print
             console.log(color(item.trim()))
           }
