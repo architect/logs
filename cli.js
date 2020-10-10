@@ -12,14 +12,14 @@ let productionFlags = '-p --production production prod'.split(' ')
  * arc logs nuke src/http/get-index .............. clear staging logs
  * arc logs nuke production src/http/get-index ... clear staging logs
  */
-module.exports = function cli(opts) {
+module.exports = function cli (opts) {
   // Validate for expected env and check for potential creds issues
   validate()
 
-  let pathToCode = opts.find(opt=> !known.includes(opt))
-  let verbose = opts.some(opt=> verboseFlags.includes(opt))
-  let nuke = opts.some(opt=> nukeFlags.includes(opt))
-  let production = opts.some(opt=> productionFlags.includes(opt))
+  let pathToCode = opts.find(opt => !known.includes(opt))
+  let verbose = opts.some(opt => verboseFlags.includes(opt))
+  let nuke = opts.some(opt => nukeFlags.includes(opt))
+  let production = opts.some(opt => productionFlags.includes(opt))
 
   return logs({ pathToCode, verbose, nuke, production })
 }

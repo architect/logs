@@ -36,6 +36,7 @@
     "strftime": "~0.10.0"
   },
   "devDependencies": {
+    "@architect/eslint-config": "0.0.1",
     "codecov": "^3.6.5",
     "cross-env": "~7.0.2",
     "eslint": "^7.0.0",
@@ -43,5 +44,8 @@
     "sinon": "^9.0.1",
     "tap-spec": "^5.0.0",
     "tape": "^5.0.1"
+  },
+  "eslintConfig": {
+    "extends": "@architect/eslint-config"
   }
 }
