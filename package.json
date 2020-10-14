@@ -36,7 +36,7 @@
     "strftime": "~0.10.0"
   },
   "devDependencies": {
-    "@architect/eslint-config": "0.0.1",
+    "@architect/eslint-config": "1.0.0",
     "codecov": "^3.6.5",
     "cross-env": "~7.0.2",
     "eslint": "^7.0.0",
