@@ -7,19 +7,19 @@ let aws = require('aws-sdk')
  * @param {String} params.pathToCode - path to lambda code
  * @param {logicalID} params.logicalID - the logical id of the function
  */
-module.exports = function getPhysicalID({name, logicalID}, callback) {
-  let cloudformation = new aws.CloudFormation({region: process.env.AWS_REGION})
-  ;(function lookup(NextToken) {
+module.exports = function getPhysicalID ({ name, logicalID }, callback) {
+  let cloudformation = new aws.CloudFormation({ region: process.env.AWS_REGION })
+  ;(function lookup (NextToken) {
     cloudformation.listStackResources({
       StackName: name,
       NextToken
     },
-    function done(err, data) {
+    function done (err, data) {
       if (err) callback(err)
       else {
-        let find = i=> i.ResourceType === 'AWS::Lambda::Function'
+        let find = i => i.ResourceType === 'AWS::Lambda::Function'
         let functions = data.StackResourceSummaries.filter(find)
-        let found = functions.find(f=> f.LogicalResourceId === logicalID)
+        let found = functions.find(f => f.LogicalResourceId === logicalID)
         if (found) callback(null, found.PhysicalResourceId)
         else if (data.NextToken) lookup(data.NextToken)
         else callback()
