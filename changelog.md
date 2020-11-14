@@ -8,7 +8,6 @@
 
 - Updated dependencies
 
-
 ### Fixed
 
 - Improved support for projects with enough CloudFormation resources to paginate calls
