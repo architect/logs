@@ -2,11 +2,17 @@
 
 ---
 
-## [1.0.12] 2020-11-16
+## [1.0.12 - 1.0.13] 2020-11-16
 
 ### Changed
 
 - Updated dependencies
+
+
+### Fixed
+
+- Improved support for projects with enough CloudFormation resources to paginate calls
+  - Thanks @tobytailor + @filmaj!
 
 ---
 
