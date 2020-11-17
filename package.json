@@ -29,7 +29,7 @@
   "homepage": "https://github.com/architect/logs#readme",
   "dependencies": {
     "@architect/utils": "~1.5.14",
-    "aws-sdk": "~2.712.0",
+    "aws-sdk": "~2.793.0",
     "chalk": "~4.1.0",
     "run-parallel": "~1.1.10",
     "run-waterfall": "~1.1.7",
