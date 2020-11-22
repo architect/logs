@@ -3,9 +3,10 @@ let getPhysicalID = require('./get-physical-id')
 let pretty = require('./pretty-print')
 let getLogicalID = require('./get-logical-id')
 
-module.exports = function nukeLogs ({ name, pathToCode, ts }, callback) {
+module.exports = function destroyLogs (params, callback) {
+  let { inventory, name, pathToCode, ts } = params
   let cloud = new aws.CloudWatchLogs({ region: process.env.AWS_REGION })
-  let logicalID = getLogicalID(pathToCode)
+  let logicalID = getLogicalID(inventory, pathToCode)
 
   getPhysicalID({
     name,

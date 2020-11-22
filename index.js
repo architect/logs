@@ -1,15 +1,15 @@
 let fs = require('fs')
 let utils = require('@architect/utils')
-let path = require('path')
+let { join } = require('path')
 let pretty = require('./src/pretty-print')
-let nukeLogs = require('./src/nuke-logs')
+let destroyLogs = require('./src/destroy-logs')
 let readLogs = require('./src/read-logs')
 
 /**
  * arc logs src/http/get-index ................... gets staging logs
  * arc logs production src/http/get-index ........ gets production logs
- * arc logs nuke src/http/get-index .............. clear staging logs
- * arc logs nuke production src/http/get-index ... clear staging logs
+ * arc logs destroy src/http/get-index .............. clear staging logs
+ * arc logs destroy production src/http/get-index ... clear staging logs
  *
  * @param {Array} opts - option arguments
  * @param {Function} callback - a node-style errback
@@ -25,23 +25,23 @@ module.exports = function logs (params = {}, callback) {
       }
     })
   }
-  let { pathToCode, verbose, nuke, production } = params
+  let { inventory, pathToCode, verbose, destroy, production } = params
 
   // flags
   let ts = Date.now()
-  let exists = (typeof pathToCode != 'undefined' && fs.existsSync(path.join(process.cwd(), pathToCode)))
+  let exists = (typeof pathToCode !== 'undefined' && fs.existsSync(join(process.cwd(), pathToCode)))
 
   // config
-  let { arc } = utils.readArc()
-  let appname = arc.app[0]
+  let appname = inventory.inv.app
   let name = `${utils.toLogicalID(appname)}${production ? 'Production' : 'Staging'}`
 
   // flow
   if (!exists) {
     pretty.notFound(pathToCode)
   }
-  else if (nuke) {
-    module.exports.nuke({
+  else if (destroy) {
+    module.exports.destroy({
+      inventory,
       ts,
       name,
       pathToCode,
@@ -50,6 +50,7 @@ module.exports = function logs (params = {}, callback) {
   }
   else {
     module.exports.read({
+      inventory,
       ts,
       name,
       pathToCode,
@@ -60,5 +61,5 @@ module.exports = function logs (params = {}, callback) {
   return promise
 }
 
-module.exports.nuke = nukeLogs
+module.exports.destroy = destroyLogs
 module.exports.read = readLogs
