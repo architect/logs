@@ -2,6 +2,22 @@
 
 ---
 
+## [2.0.0] 2020-11-22
+
+### Added
+
+- Added support for new Arc 8.3+ CloudFormation resource names
+
+
+### Changed
+
+- Implemented Inventory (`@architect/inventory`)
+- Updated dependencies
+- Breaking API change: `nuke` method has been deprecated in favor of `destroy`
+  - `nuke` CLI flags will work for a while longer
+
+---
+
 ## [1.0.12 - 1.0.14] 2020-11-16
 
 ### Changed

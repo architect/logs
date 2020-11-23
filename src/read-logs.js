@@ -5,8 +5,9 @@ let getPhysicalID = require('./get-physical-id')
 let pretty = require('./pretty-print')
 let getLogicalID = require('./get-logical-id')
 
-module.exports = function readLogs ({ name, pathToCode, ts }, callback) {
-  let logicalID = getLogicalID(pathToCode)
+module.exports = function readLogs (params, callback) {
+  let { inventory, name, pathToCode, ts } = params
+  let logicalID = getLogicalID(inventory, pathToCode)
 
   getPhysicalID({
     name,

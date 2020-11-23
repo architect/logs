@@ -1,6 +1,6 @@
 {
   "name": "@architect/logs",
-  "version": "1.0.14",
+  "version": "2.0.0-RC.1",
   "description": "Manage logging from Architect-provisioned cloud functions",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,8 @@
   },
   "homepage": "https://github.com/architect/logs#readme",
   "dependencies": {
-    "@architect/utils": "~1.5.14",
+    "@architect/inventory": "~1.1.0",
+    "@architect/utils": "~2.0.0",
     "aws-sdk": "~2.712.0",
     "chalk": "~4.1.0",
     "run-parallel": "~1.1.10",
@@ -40,7 +41,7 @@
     "aws-sdk-mock": "~5.1.0",
     "codecov": "^3.8.1",
     "cross-env": "~7.0.2",
-    "eslint": "^7.13.0",
+    "eslint": "^7.14.0",
     "nyc": "^15.1.0",
     "sinon": "^9.2.1",
     "tap-spec": "^5.0.0",
