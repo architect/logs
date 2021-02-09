@@ -13,6 +13,7 @@ module.exports = function getLogicalID (inventory, dir) {
   let lambdae = {
     events: 'Event',
     http: 'HTTP',
+    plugins: 'Plugin',
     queues: 'Queue',
     scheduled: 'Scheduled',
     streams: 'Stream',
@@ -20,9 +21,22 @@ module.exports = function getLogicalID (inventory, dir) {
   }
   Object.entries(lambdae).forEach(([ pragma, type ]) => {
     if (lambda) return
-    if (inv[pragma]) inv[pragma].forEach(l => {
-      if (l.src.endsWith(pathToCode)) lambda = { ...l, type }
-    })
+    if (inv[pragma]) {
+      let ls = []
+      if (pragma == 'plugins') {
+        Object.values(inv[pragma]).forEach(pluginModule => {
+          if (pluginModule.pluginFunctions) {
+            ls = ls.concat(pluginModule.pluginFunctions(inv._project.arc, inventory))
+          }
+        })
+      }
+      else {
+        ls = inv[pragma]
+      }
+      ls.forEach(l => {
+        if (l.src.endsWith(pathToCode)) lambda = { ...l, type }
+      })
+    }
   })
 
   if (lambda) {

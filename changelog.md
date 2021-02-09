@@ -2,6 +2,14 @@
 
 ---
 
+## [2.1.0] 2021-02-09
+
+### Added
+
+- Support for pulling logs from custom `@plugins`-defined Lambdas
+
+---
+
 ## [2.0.1] 2020-12-04
 
 ### Changed
