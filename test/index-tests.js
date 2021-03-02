@@ -40,8 +40,8 @@ test('`logs` invokes `read` by default and passes the path to it', t => {
     else {
       t.equals(fakeTwo.lastCall.args[0].pathToCode, path, 'pathToCode passed to read method')
     }
+    sinon.restore()
   })
-  sinon.restore()
 })
 
 test('`logs` invokes `destroy` when specified via args and passes the path to it', t => {
@@ -56,6 +56,6 @@ test('`logs` invokes `destroy` when specified via args and passes the path to it
     else {
       t.equals(fakeTwo.lastCall.args[0].pathToCode, path, 'pathToCode passed to destroy method')
     }
+    sinon.restore()
   })
-  sinon.restore()
 })

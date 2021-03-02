@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run lint && npm run coverage",
-    "test:unit": "cross-env tape 'test/**/*-tests.js' | tap-spec",
+    "test:unit": "tape 'test/**/*-tests.js'",
     "coverage": "nyc --reporter=lcov --reporter=text npm run test:unit",
     "lint": "eslint . --fix",
     "rc": "npm version prerelease --preid RC"
@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/architect/logs#readme",
   "dependencies": {
-    "@architect/inventory": "~1.2.0",
+    "@architect/inventory": "~1.3.0-RC.0",
     "@architect/utils": "~2.0.2",
     "aws-sdk": "~2.712.0",
     "chalk": "~4.1.0",
@@ -42,6 +42,7 @@
     "codecov": "^3.8.1",
     "cross-env": "~7.0.3",
     "eslint": "^7.14.0",
+    "mock-fs": "~4.13.0",
     "mock-require": "~3.0.3",
     "nyc": "^15.1.0",
     "sinon": "^9.2.1",

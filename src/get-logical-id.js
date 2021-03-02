@@ -47,7 +47,16 @@ module.exports = function getLogicalID (inventory, dir) {
       return `${id}HTTPLambda`
     }
     else {
-      let lambdaName = getLambdaName(name)
+      let nameInput
+      if (name) {
+        // If lambda name explicitly provided, use that
+        nameInput = name
+      }
+      else {
+        // Otherwise, infer lambda name based on source path
+        nameInput = pathToCode.replace(/^src\/?\\?/, '')
+      }
+      let lambdaName = getLambdaName(nameInput)
       let id = toLogicalID(lambdaName)
       return `${id}${type}Lambda`
     }
