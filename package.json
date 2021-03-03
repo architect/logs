@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run lint && npm run coverage",
-    "test:unit": "tape 'test/**/*-tests.js'",
+    "test:unit": "cross-env tape 'test/**/*-tests.js' | tap-spec",
     "coverage": "nyc --reporter=lcov --reporter=text npm run test:unit",
     "lint": "eslint . --fix",
     "rc": "npm version prerelease --preid RC"
