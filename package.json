@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run lint && npm run coverage",
-    "test:unit": "tape 'test/**/*-tests.js'",
+    "test:unit": "cross-env tape 'test/**/*-tests.js' | tap-spec",
     "coverage": "nyc --reporter=lcov --reporter=text npm run test:unit",
     "lint": "eslint . --fix",
     "rc": "npm version prerelease --preid RC"
@@ -42,7 +42,7 @@
     "codecov": "^3.8.1",
     "cross-env": "~7.0.3",
     "eslint": "^7.14.0",
-    "mock-fs": "~4.13.0",
+    "mock-fs": "github:tschaub/mock-fs#std",
     "mock-require": "~3.0.3",
     "nyc": "^15.1.0",
     "sinon": "^9.2.1",
