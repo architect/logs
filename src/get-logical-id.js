@@ -21,22 +21,9 @@ module.exports = function getLogicalID (inventory, dir) {
   }
   Object.entries(lambdae).forEach(([ pragma, type ]) => {
     if (lambda) return
-    if (inv[pragma]) {
-      let ls = []
-      if (pragma == 'plugins') {
-        Object.values(inv[pragma]).forEach(pluginModule => {
-          if (pluginModule.pluginFunctions) {
-            ls = ls.concat(pluginModule.pluginFunctions(inv._project.arc, inventory))
-          }
-        })
-      }
-      else {
-        ls = inv[pragma]
-      }
-      ls.forEach(l => {
-        if (l.src.endsWith(pathToCode)) lambda = { ...l, type }
-      })
-    }
+    if (inv[pragma]) inv[pragma].forEach(l => {
+      if (l.src.endsWith(pathToCode)) lambda = { ...l, type }
+    })
   })
 
   if (lambda) {
@@ -47,16 +34,7 @@ module.exports = function getLogicalID (inventory, dir) {
       return `${id}HTTPLambda`
     }
     else {
-      let nameInput
-      if (name) {
-        // If lambda name explicitly provided, use that
-        nameInput = name
-      }
-      else {
-        // Otherwise, infer lambda name based on source path
-        nameInput = pathToCode.replace(/^src\/?\\?/, '')
-      }
-      let lambdaName = getLambdaName(nameInput)
+      let lambdaName = getLambdaName(name)
       let id = toLogicalID(lambdaName)
       return `${id}${type}Lambda`
     }
