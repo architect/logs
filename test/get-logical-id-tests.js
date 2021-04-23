@@ -36,9 +36,9 @@ test('Set up env', t => {
     if (err) t.fail(err)
     else {
       inventory = result
-      tearDown() // must be restored before any tape tests are resolved because of mock-fs#201
       t.ok(getLogicalID, 'Logical ID module is present')
       t.pass('Got inventory')
+      tearDown()
     }
   })
 })
@@ -47,24 +47,24 @@ test('get-logical-id should return logical id for path', t => {
   t.plan(1)
   setUp()
   let id = getLogicalID(inventory, `.${sep}src${sep}http${sep}get-index`)
-  tearDown() // must be restored before any tape tests are resolved because of mock-fs#201
   t.equal(id, 'GetIndexHTTPLambda')
+  tearDown()
 })
 
 test('get-logical-id should return logical id for websocket path', t => {
   t.plan(1)
   setUp()
   let id = getLogicalID(inventory, `.${sep}src${sep}ws${sep}default`)
-  tearDown() // must be restored before any tape tests are resolved because of mock-fs#201
   t.equal(id, 'DefaultWSLambda')
+  tearDown()
 })
 
 test('get-logical-id should replace references to 000 in path', t => {
   t.plan(1)
   setUp()
   let id = getLogicalID(inventory, `.${sep}src${sep}http${sep}get-api-000version`)
-  tearDown() // must be restored before any tape tests are resolved because of mock-fs#201
   t.equal(id, 'GetApiVersionHTTPLambda')
+  tearDown()
 })
 
 test('get-logical-id should blow up on unknown path', t => {
@@ -78,6 +78,6 @@ test('get-logical-id should include name plugin-registered Lambdas based on the 
   t.plan(1)
   setUp()
   let id = getLogicalID(inventory, `.${sep}src${sep}myplugin${sep}custom-funk`)
-  tearDown() // must be restored before any tape tests are resolved because of mock-fs#201
   t.equal(id, 'MypluginCustomFunkPluginLambda')
+  tearDown()
 })
