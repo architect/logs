@@ -2,6 +2,15 @@
 
 ---
 
+## [2.1.1] 2021-05-24
+
+### Added
+
+- `@plugins`-defined Lambdas can now use both `functions` and `pluginFunctions`
+    plugin interface methods
+
+---
+
 ## [2.1.0] 2021-02-09
 
 ### Added
