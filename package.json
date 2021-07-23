@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/architect/logs#readme",
   "dependencies": {
-    "@architect/inventory": "~1.4.3",
+    "@architect/inventory": "~2.0.2",
     "@architect/utils": "~3.0.1",
     "aws-sdk": "~2.880.0",
     "chalk": "~4.1.1",
