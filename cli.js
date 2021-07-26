@@ -5,7 +5,6 @@ let _inventory = require('@architect/inventory')
 let known = 'logs -v --verbose verbose -n --nuke nuke -p --production production prod'.split(' ')
 let verboseFlags = '-v --verbose verbose'.split(' ')
 let destroyFlags = '-n --destroy destroy'.split(' ')
-destroyFlags.concat('-n --nuke nuke'.split(' ')) // Deprecated
 let productionFlags = '-p --production production prod'.split(' ')
 
 /**
