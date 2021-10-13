@@ -1,9 +1,11 @@
 let test = require('tape')
-const AWS = require('aws-sdk-mock')
+let aws = require('aws-sdk')
+let awsMock = require('aws-sdk-mock')
+awsMock.setSDKInstance(aws)
 const sinon = require('sinon')
 let resourceStub = { StackResourceSummaries: [] }
 let fake = sinon.fake.yields(null, resourceStub)
-AWS.mock('CloudFormation', 'listStackResources', fake)
+awsMock.mock('CloudFormation', 'listStackResources', fake)
 let getPhysicalID = require('../src/get-physical-id')
 
 test('should return only return Lambda Function resource types', t => {
@@ -36,10 +38,10 @@ test('should be able to paginate through multiple pages of results from CloudFor
     }
     callback(null, resourceStub)
   })
-  AWS.remock('CloudFormation', 'listStackResources', pagefake)
+  awsMock.remock('CloudFormation', 'listStackResources', pagefake)
   getPhysicalID({ name: 'stackname', logicalID: 'gamma' }, function (err, id) {
     if (err) t.fail('unexpected error in callback', err)
     else t.equals(id, 'four')
-    AWS.restore()
+    awsMock.restore()
   })
 })
