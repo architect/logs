@@ -11,20 +11,20 @@ your @architect functions across environments.
 
 # API
 
-## `logs({pathToCode, verbose, nuke, production}, callback)`
+## `logs({pathToCode, verbose, destroy, production}, callback)`
 
 Takes a parameter object as first argument which accepts the following properties:
 
 - `pathToCode`: **required** the local path to architect Function code relative
     to the current working directory, i.e. `src/http/get-index`
 - `verbose`: verbose super chatty mode
-- `nuke`: if truthy will delete logs via [`logs.nuke`][nuke], otherwise will
+- `destroy`: if truthy will delete logs via [`logs.destroy`][destroy], otherwise will
     read logs via [`logs.read`][read]
 - `production`: if truthy will target your arc project's production environment,
     otherwise will default to staging
 
-By default will [read][read] logs from the staging environment. If the `nuke`
-property is truthy, logs instead will be [nuked][nuke].
+By default will [read][read] logs from the staging environment. If the `destroy`
+property is truthy, logs instead will be [destroyed][destroy].
 
 ## `logs.read({name, pathToCode, ts}, callback)`
 
@@ -45,7 +45,7 @@ Takes a parameter object as first argument which accepts the following propertie
 `callback` will be invoked with an error if an error arises during execution.
 Otherwise, `callback` will be invoked without arguments.
 
-## `logs.nuke({name, pathToCode, ts}, callback)`
+## `logs.destroy({name, pathToCode, ts}, callback)`
 
 Will delete logs from [`aws.CloudWatchLogs`][cloudwatchlogs], invoking
 [`deleteLogGroup`][deleteloggroup].
@@ -66,7 +66,7 @@ Otherwise, `callback` will be invoked without arguments.
 
 [npm]: https://www.npmjs.com/package/@architect/logs
 [read]: #logsreadname-pathtocode-ts-callback
-[nuke]: #logsnukename-pathtocode-ts-callback
+[destroy]: #logsdestroyname-pathtocode-ts-callback
 [liststack]: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudFormation.html#listStackResources-property
 [cloudwatchlogs]: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html
 [getlogevents]: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html#getLogEvents-property
