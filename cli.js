@@ -12,15 +12,13 @@ let logs = require('.')
  * arc logs destroy src/http/get-index .............. clear staging logs
  * arc logs destroy production src/http/get-index ... clear staging logs
  */
-async function cli (params = {}) {
-  let { inventory } = params
+async function main (opts = {}) {
+  let { inventory } = opts
 
   // Validate for expected env and check for potential creds issues
   validate()
 
-  if (!inventory) {
-    inventory = await _inventory({})
-  }
+  if (!inventory) inventory = await _inventory({})
 
   let alias = {
     production: [ 'p' ],
@@ -34,14 +32,14 @@ async function cli (params = {}) {
   return logs({ inventory, pathToCode: args._[0], ...args })
 }
 
-module.exports = cli
+module.exports = main
 
 if (require.main === module) {
   (async function () {
     try {
       let inventory = await _inventory({})
       banner({ inventory, version: `Logs ${version}` })
-      await cli()
+      await main({ inventory })
     }
     catch (err) {
       console.log(err)
