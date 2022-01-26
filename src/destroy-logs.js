@@ -5,12 +5,14 @@ let getLogicalID = require('./get-logical-id')
 
 module.exports = function destroyLogs (params, callback) {
   let { inventory, name, pathToCode, ts } = params
-  let cloud = new aws.CloudWatchLogs({ region: process.env.AWS_REGION })
+  let { region } = inventory.inv.aws
+  let cloud = new aws.CloudWatchLogs({ region })
   let logicalID = getLogicalID(inventory, pathToCode)
 
   getPhysicalID({
     name,
-    logicalID
+    logicalID,
+    region,
   },
   function done (err, found) {
     if (err) {

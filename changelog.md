@@ -4,9 +4,18 @@
 
 ## [4.0.0] 2022-01-23
 
+### Added
+
+- Architect 10 plugin API support!
+- Added `npx arc-logs` direct invocation
+
+
 ### Changed
 
+- Breaking change: bare CLI arguments (e.g. `logs {Lambda src} production`) as aliases to flags are now discarded, please use CLI flags (e.g. `logs {Lambda src} --production` or `logs {Lambda src} -p`)
+- Internal change: AWS calls now rely on Inventory region, not `AWS_REGION`
 - Stop publishing to the GitHub Package registry
+- Updated dependencies
 
 ---
 

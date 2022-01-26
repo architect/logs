@@ -13,11 +13,11 @@ module.exports = function getLogicalID (inventory, dir) {
   let lambdae = {
     events: 'Event',
     http: 'HTTP',
-    plugins: 'Plugin',
     queues: 'Queue',
     scheduled: 'Scheduled',
     streams: 'Stream',
     ws: 'WS',
+    customLambdas: 'Custom',
   }
   Object.entries(lambdae).forEach(([ pragma, type ]) => {
     if (lambda) return

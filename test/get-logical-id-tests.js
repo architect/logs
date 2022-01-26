@@ -13,11 +13,13 @@ function setUp () {
   let mocks = {}
   mocks[unixFakePluginPath] = 'fake file contents'
   mockRequire(fakePluginPath, {
-    pluginFunctions: function () {
-      return [ {
-        src: join(process.cwd(), 'src', 'myplugin', 'custom-funk'),
-        body: 'my body is my temple'
-      } ]
+    set: {
+      customLambdas: () => {
+        return {
+          name: 'a-custom-lambda',
+          src: join(process.cwd(), 'src', 'myplugin', 'custom-funk')
+        }
+      }
     }
   })
   mockFs(mocks)
@@ -74,10 +76,10 @@ test('get-logical-id should blow up on unknown path', t => {
   }, 'Threw on unknown path')
 })
 
-test('get-logical-id should include name plugin-registered Lambdas based on the path and contain a PluginLambda suffix', t => {
+test('get-logical-id should include name custom Lambdas based on the path and contain a CustomLambda suffix', t => {
   t.plan(1)
   setUp()
   let id = getLogicalID(inventory, `.${sep}src${sep}myplugin${sep}custom-funk`)
-  t.equal(id, 'MypluginCustomFunkPluginLambda')
+  t.equal(id, 'ACustomLambdaCustomLambda')
   tearDown()
 })

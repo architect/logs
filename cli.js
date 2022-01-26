@@ -1,11 +1,10 @@
-let logs = require('.')
-let validate = require('./src/validate')
+#!/usr/bin/env node
+let minimist = require('minimist')
+let { banner } = require('@architect/utils')
 let _inventory = require('@architect/inventory')
-
-let known = 'logs -v --verbose verbose -n --nuke nuke -p --production production prod'.split(' ')
-let verboseFlags = '-v --verbose verbose'.split(' ')
-let destroyFlags = '-n --destroy destroy'.split(' ')
-let productionFlags = '-p --production production prod'.split(' ')
+let { version } = require('./package.json')
+let validate = require('./src/validate')
+let logs = require('.')
 
 /**
  * arc logs src/http/get-index ................... gets staging logs
@@ -13,16 +12,39 @@ let productionFlags = '-p --production production prod'.split(' ')
  * arc logs destroy src/http/get-index .............. clear staging logs
  * arc logs destroy production src/http/get-index ... clear staging logs
  */
-module.exports = async function cli (opts) {
+async function cli (params = {}) {
+  let { inventory } = params
+
   // Validate for expected env and check for potential creds issues
   validate()
 
-  let inventory = await _inventory({})
+  if (!inventory) {
+    inventory = await _inventory({})
+  }
 
-  let pathToCode = opts.find(opt => !known.includes(opt))
-  let verbose = opts.some(opt => verboseFlags.includes(opt))
-  let destroy = opts.some(opt => destroyFlags.includes(opt))
-  let production = opts.some(opt => productionFlags.includes(opt))
+  let alias = {
+    production: [ 'p' ],
+    debug:      [ 'd' ],
+    verbose:    [ 'v' ],
+  }
+  let boolean = [ 'debug', 'destroy', 'production', 'verbose' ]
+  let args = minimist(process.argv.slice(2), { alias, boolean })
+  if (args._[0] === 'logs') args._.splice(0, 1)
 
-  return logs({ inventory, pathToCode, verbose, destroy, production })
+  return logs({ inventory, pathToCode: args._[0], ...args })
+}
+
+module.exports = cli
+
+if (require.main === module) {
+  (async function () {
+    try {
+      let inventory = await _inventory({})
+      banner({ inventory, version: `Logs ${version}` })
+      await cli()
+    }
+    catch (err) {
+      console.log(err)
+    }
+  })()
 }

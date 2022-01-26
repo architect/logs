@@ -7,11 +7,13 @@ let getLogicalID = require('./get-logical-id')
 
 module.exports = function readLogs (params, callback) {
   let { inventory, name, pathToCode, ts } = params
+  let { region } = inventory.inv.aws
   let logicalID = getLogicalID(inventory, pathToCode)
 
   getPhysicalID({
     name,
-    logicalID
+    logicalID,
+    region,
   },
   function done (err, found) {
     if (err) {
@@ -23,7 +25,7 @@ module.exports = function readLogs (params, callback) {
     }
     else {
       let logGroup = '/aws/lambda/' + found
-      read(logGroup, function done (err, events) {
+      read({ name: logGroup, region }, function done (err, events) {
         if (err) callback(err)
         else {
           pretty.printLogs(events)
@@ -35,8 +37,8 @@ module.exports = function readLogs (params, callback) {
   })
 }
 
-function read (name, callback) {
-  let cloud = new aws.CloudWatchLogs({ region: process.env.AWS_REGION })
+function read ({ name, region }, callback) {
+  let cloud = new aws.CloudWatchLogs({ region })
   waterfall([
 
     function describeLogStreams (callback) {
