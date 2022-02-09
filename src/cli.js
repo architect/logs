@@ -2,8 +2,8 @@
 let minimist = require('minimist')
 let { banner } = require('@architect/utils')
 let _inventory = require('@architect/inventory')
-let { version } = require('./package.json')
-let validate = require('./src/validate')
+let { version } = require('../package.json')
+let validate = require('./validate')
 let logs = require('.')
 
 /**
