@@ -1,6 +1,6 @@
 {
   "name": "@architect/logs",
-  "version": "4.0.2",
+  "version": "4.0.1",
   "description": "Manage logging from Architect-provisioned cloud functions",
   "main": "src/index.js",
   "bin": {
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "npm run lint && npm run coverage",
-    "test:unit": "cross-env tape 'test/**/*-tests.js' | tap-arc",
+    "test:unit": "cross-env tape 'test/**/*-tests.js' | tap-spec",
     "coverage": "nyc --reporter=lcov --reporter=text npm run test:unit",
     "lint": "eslint . --fix",
     "rc": "npm version prerelease --preid RC"
@@ -51,7 +51,7 @@
     "mock-require": "~3.0.3",
     "nyc": "^15.1.0",
     "sinon": "^13.0.1",
-    "tap-arc": "^0.3.4",
+    "tap-spec": "^5.0.0",
     "tape": "^5.5.3"
   },
   "eslintConfig": {
