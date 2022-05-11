@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "npm run lint && npm run coverage",
-    "test:unit": "cross-env tape 'test/**/*-tests.js' | tap-arc",
+    "test:unit": "cross-env tape 'test/**/*-tests.js'",
     "coverage": "nyc --reporter=lcov --reporter=text npm run test:unit",
     "lint": "eslint . --fix",
     "rc": "npm version prerelease --preid RC"
