@@ -37,22 +37,22 @@
     "@architect/utils": "~3.1.2",
     "aws-sdk": "2.1055.0",
     "chalk": "4.1.2",
-    "minimist": "~1.2.6",
+    "minimist": "~1.2.7",
     "run-parallel": "~1.2.0",
     "run-waterfall": "~1.1.7",
     "strftime": "~0.10.1"
   },
   "devDependencies": {
     "@architect/eslint-config": "~2.0.1",
-    "aws-sdk-mock": "~5.7.0",
+    "aws-sdk-mock": "~5.8.0",
     "cross-env": "~7.0.3",
-    "eslint": "^8.23.0",
-    "mock-fs": "~5.1.4",
+    "eslint": "^8.27.0",
+    "mock-fs": "~5.2.0",
     "mock-require": "~3.0.3",
     "nyc": "^15.1.0",
-    "sinon": "^14.0.0",
+    "sinon": "^14.0.2",
     "tap-spec": "^5.0.0",
-    "tape": "^5.6.0"
+    "tape": "^5.6.1"
   },
   "eslintConfig": {
     "extends": "@architect/eslint-config"
