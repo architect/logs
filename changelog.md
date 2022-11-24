@@ -2,6 +2,19 @@
 
 ---
 
+## [4.0.5] 2022-11-24
+
+### Added
+
+- Added Node.js 18.x to test matrix
+
+
+### Changed
+
+- Updated dependencies
+
+---
+
 ## [4.0.4] 2022-09-07
 
 ### Changed

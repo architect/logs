@@ -33,7 +33,7 @@
     "src/*"
   ],
   "dependencies": {
-    "@architect/inventory": "~3.3.0",
+    "@architect/inventory": "~3.3.4-RC.0",
     "@architect/utils": "~3.1.2",
     "aws-sdk": "2.1055.0",
     "chalk": "4.1.2",
@@ -46,7 +46,7 @@
     "@architect/eslint-config": "~2.0.1",
     "aws-sdk-mock": "~5.8.0",
     "cross-env": "~7.0.3",
-    "eslint": "^8.27.0",
+    "eslint": "^8.28.0",
     "mock-fs": "~5.2.0",
     "mock-require": "~3.0.3",
     "nyc": "^15.1.0",
