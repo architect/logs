@@ -1,3 +1,6 @@
+// eslint-disable-next-line
+try { require('aws-sdk/lib/maintenance_mode_message').suppress = true }
+catch { /* Noop */ }
 let fs = require('fs')
 let utils = require('@architect/utils')
 let { join } = require('path')
@@ -5,7 +8,6 @@ let pretty = require('./pretty-print')
 let destroyLogs = require('./destroy-logs')
 let readLogs = require('./read-logs')
 
-require('aws-sdk/lib/maintenance_mode_message').suppress = true
 
 /**
  * arc logs src/http/get-index ................... gets staging logs
