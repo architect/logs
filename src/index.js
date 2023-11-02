@@ -7,7 +7,7 @@ let { join } = require('path')
 let pretty = require('./pretty-print')
 let destroyLogs = require('./destroy-logs')
 let readLogs = require('./read-logs')
-
+let cwd = process.cwd()
 
 /**
  * arc logs src/http/get-index ................... gets staging logs
@@ -31,9 +31,16 @@ module.exports = function logs (params = {}, callback) {
   }
   let { inventory, pathToCode, verbose, destroy, production } = params
 
-  // flags
   let ts = Date.now()
-  let exists = (typeof pathToCode !== 'undefined' && fs.existsSync(join(process.cwd(), pathToCode)))
+  let rootHandler = inventory.inv._project.rootHandler
+  if (!pathToCode && rootHandler) {
+    let handler = inventory.inv.http.find(({ name }) => name === rootHandler)
+    pathToCode = handler.src
+    let update = utils.updater('Logs')
+    update.status(`No Lambda specified; using root @http handler (${rootHandler})`)
+  }
+  let dir = pathToCode.startsWith(cwd) ? pathToCode : join(cwd, pathToCode)
+  let exists = (typeof pathToCode !== 'undefined' && fs.existsSync(dir))
 
   // config
   let appname = inventory.inv.app

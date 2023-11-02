@@ -2,6 +2,15 @@
 
 ---
 
+## [4.1.0] 2023-11-02
+
+### Added
+
+- If no Lambda is specified, default to `@http` root handler (if possible)
+- Added ability to specify an absolute file path for logs
+
+---
+
 ## [4.0.10] 2023-08-14
 
 ### Changed
