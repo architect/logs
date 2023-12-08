@@ -1,5 +1,5 @@
 let test = require('tape')
-let mockFs = require('mock-fs')
+let mockTmp = require('mock-tmp')
 let mockRequire = require('mock-require')
 let _inventory = require('@architect/inventory')
 let { sep, join } = require('path')
@@ -7,34 +7,33 @@ let getLogicalID = require('../src/get-logical-id')
 let inventory
 
 function setUp () {
-  let fakePluginPath = join(process.cwd(), 'src', 'plugins', 'myplugin.js')
-  // because mock-fs forces you to use / even on windows :| :| :|
-  let unixFakePluginPath = fakePluginPath.replace(/\\/g, '/')
-  let mocks = {}
-  mocks[unixFakePluginPath] = 'fake file contents'
-  mockRequire(fakePluginPath, {
+  let fakePluginPath = join('src', 'plugins', 'myplugin.js')
+  let tmp = mockTmp({
+    [fakePluginPath]: '// fake file contents'
+  })
+  mockRequire(join(tmp, fakePluginPath), {
     set: {
       customLambdas: () => {
         return {
           name: 'a-custom-lambda',
-          src: join(process.cwd(), 'src', 'myplugin', 'custom-funk')
+          src: join('src', 'myplugin', 'custom-funk')
         }
       }
     }
   })
-  mockFs(mocks)
+  return tmp
 }
 
 function tearDown () {
-  mockFs.restore()
+  mockTmp.reset()
   mockRequire.stopAll()
 }
 
 test('Set up env', t => {
   t.plan(2)
-  setUp()
+  let cwd = setUp()
   let rawArc = '@app\nappname\n@http\nget /\nget /api/:version\n@ws\n@plugins\nmyplugin\n@myplugin\ncustom-funk'
-  _inventory({ rawArc }, (err, result) => {
+  _inventory({ cwd, rawArc }, (err, result) => {
     if (err) t.fail(err)
     else {
       inventory = result
