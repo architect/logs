@@ -46,7 +46,7 @@
     "@architect/eslint-config": "~2.1.2",
     "aws-sdk-mock": "~5.8.0",
     "cross-env": "~7.0.3",
-    "eslint": "~8.55.0",
+    "eslint": "~8.56.0",
     "mock-require": "~3.0.3",
     "mock-tmp": "~0.0.2",
     "nyc": "^15.1.0",
