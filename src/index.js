@@ -1,12 +1,10 @@
-// eslint-disable-next-line
-try { require('aws-sdk/lib/maintenance_mode_message').suppress = true }
-catch { /* Noop */ }
 let fs = require('fs')
 let utils = require('@architect/utils')
+let awsLite = require('@aws-lite/client')
 let { join } = require('path')
 let pretty = require('./pretty-print')
-let destroyLogs = require('./destroy-logs')
-let readLogs = require('./read-logs')
+let destroy = require('./destroy-logs')
+let read = require('./read-logs')
 let cwd = process.cwd()
 
 /**
@@ -20,6 +18,8 @@ let cwd = process.cwd()
  * @returns {Promise} - if no callback is supplied
  */
 module.exports = function logs (params = {}, callback) {
+  let { inventory, pathToCode, verbose, destroy, production } = params
+
   let promise
   if (!callback) {
     promise = new Promise(function ugh (res, rej) {
@@ -29,7 +29,6 @@ module.exports = function logs (params = {}, callback) {
       }
     })
   }
-  let { inventory, pathToCode, verbose, destroy, production } = params
 
   let ts = Date.now()
   let rootHandler = inventory.inv._project.rootHandler
@@ -39,38 +38,27 @@ module.exports = function logs (params = {}, callback) {
     let update = utils.updater('Logs')
     update.status(`No Lambda specified; using root @http handler (${rootHandler})`)
   }
-  let dir = pathToCode.startsWith(cwd) ? pathToCode : join(cwd, pathToCode)
+  let dir = pathToCode?.startsWith(cwd) ? pathToCode : join(cwd, pathToCode)
   let exists = (typeof pathToCode !== 'undefined' && fs.existsSync(dir))
 
-  // config
   let appname = inventory.inv.app
   let name = `${utils.toLogicalID(appname)}${production ? 'Production' : 'Staging'}`
 
-  // flow
   if (!exists) {
     pretty.notFound(pathToCode)
   }
-  else if (destroy) {
-    module.exports.destroy({
-      inventory,
-      ts,
-      name,
-      pathToCode,
-      verbose,
-    }, callback)
-  }
   else {
-    module.exports.read({
-      inventory,
-      ts,
-      name,
-      pathToCode,
-      verbose,
-    }, callback)
+    awsLite({ region: inventory.inv.aws.region })
+      .then(aws => {
+        let args = { aws, inventory, ts, name, pathToCode, verbose }
+        // TODO refactor sinon out so we don't have to call module.exports methods
+        if (destroy) module.exports.destroy(args, callback)
+        else module.exports.read(args, callback)
+      })
   }
 
   return promise
 }
 
-module.exports.destroy = destroyLogs
-module.exports.read = readLogs
+module.exports.destroy = destroy
+module.exports.read = read

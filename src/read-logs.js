@@ -1,4 +1,3 @@
-let aws = require('aws-sdk')
 let parallel = require('run-parallel')
 let waterfall = require('run-waterfall')
 let getPhysicalID = require('./get-physical-id')
@@ -6,16 +5,10 @@ let pretty = require('./pretty-print')
 let getLogicalID = require('./get-logical-id')
 
 module.exports = function readLogs (params, callback) {
-  let { inventory, name, pathToCode, ts } = params
-  let { region } = inventory.inv.aws
+  let { aws, inventory, name, pathToCode, ts } = params
   let logicalID = getLogicalID(inventory, pathToCode)
 
-  getPhysicalID({
-    name,
-    logicalID,
-    region,
-  },
-  function done (err, found) {
+  getPhysicalID({ aws, name, logicalID }, (err, found) => {
     if (err) {
       callback(err)
     }
@@ -25,7 +18,7 @@ module.exports = function readLogs (params, callback) {
     }
     else {
       let logGroup = '/aws/lambda/' + found
-      read({ name: logGroup, region }, function done (err, events) {
+      read({ aws, name: logGroup }, (err, events) => {
         if (err) callback(err)
         else {
           pretty.printLogs(events)
@@ -37,26 +30,29 @@ module.exports = function readLogs (params, callback) {
   })
 }
 
-function read ({ name, region }, callback) {
-  let cloud = new aws.CloudWatchLogs({ region })
+function read ({ aws, name }, callback) {
   waterfall([
 
     function describeLogStreams (callback) {
-      cloud.describeLogStreams({
+      aws.cloudwatchlogs.DescribeLogStreams({
         logGroupName: name,
         descending: true,
         orderBy: 'LastEventTime'
-      }, callback)
+      })
+        .then(data => callback(null, data))
+        .catch(callback)
     },
 
     function getLogEvents (result, callback) {
       var names = result.logStreams.map(l => l.logStreamName).reverse()
       parallel(names.map(logStreamName => {
         return function getOneLogEventStream (callback) {
-          cloud.getLogEvents({
+          aws.cloudwatchlogs.GetLogEvents({
             logGroupName: name,
             logStreamName,
-          }, callback)
+          })
+            .then(data => callback(null, data))
+            .catch(callback)
         }
       }), callback)
     },

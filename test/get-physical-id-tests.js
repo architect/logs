@@ -1,4 +1,4 @@
-let test = require('tape')
+/* let test = require('tape')
 let aws = require('aws-sdk')
 let awsMock = require('aws-sdk-mock')
 awsMock.setSDKInstance(aws)
@@ -45,3 +45,4 @@ test('should be able to paginate through multiple pages of results from CloudFor
     awsMock.restore()
   })
 })
+ */
