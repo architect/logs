@@ -40,7 +40,12 @@ function read ({ aws, name }, callback) {
         orderBy: 'LastEventTime'
       })
         .then(data => callback(null, data))
-        .catch(callback)
+        .catch(err => {
+          if (err.code === 'ResourceNotFoundException') {
+            pretty.notFound(name)
+          }
+          callback(err)
+        })
     },
 
     function getLogEvents (result, callback) {
