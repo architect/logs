@@ -33,10 +33,10 @@
     "src/*"
   ],
   "dependencies": {
-    "@architect/inventory": "~3.6.5",
-    "@architect/utils": "~3.1.9",
-    "@aws-lite/client": "~0.13.4",
-    "@aws-lite/cloudformation": "~0.0.1",
+    "@architect/inventory": "~4.0.0-RC.1",
+    "@architect/utils": "~4.0.0-RC.2",
+    "@aws-lite/client": "~0.14.0",
+    "@aws-lite/cloudformation": "~0.0.2",
     "@aws-lite/cloudwatch-logs": "~0.0.3",
     "aws-sdk": "^2.1363.0",
     "chalk": "4.1.2",
