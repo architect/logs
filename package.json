@@ -33,10 +33,10 @@
     "src/*"
   ],
   "dependencies": {
-    "@architect/inventory": "~4.0.0-RC.1",
-    "@architect/utils": "~4.0.0-RC.2",
-    "@aws-lite/client": "~0.14.0",
-    "@aws-lite/cloudformation": "~0.0.2",
+    "@architect/inventory": "~4.0.0-RC.2",
+    "@architect/utils": "~4.0.0-RC.3",
+    "@aws-lite/client": "~0.14.2",
+    "@aws-lite/cloudformation": "~0.0.3",
     "@aws-lite/cloudwatch-logs": "~0.0.3",
     "chalk": "4.1.2",
     "minimist": "~1.2.8",
@@ -53,7 +53,7 @@
     "nyc": "^15.1.0",
     "sinon": "~17.0.1",
     "tap-arc": "~1.2.2",
-    "tape": "~5.7.2"
+    "tape": "~5.7.3"
   },
   "eslintConfig": {
     "extends": "@architect/eslint-config"
