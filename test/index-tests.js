@@ -10,6 +10,8 @@ process.chdir(__dirname)
 test('Set up env', t => {
   t.plan(2)
   t.ok(logs, 'Env module is present')
+  process.env.AWS_ACCESS_KEY_ID = 'yo'
+  process.env.AWS_SECRET_ACCESS_KEY = 'yo'
   _inventory({}, (err, result) => {
     if (err) t.fail(err)
     else {
@@ -38,7 +40,7 @@ test('`logs` invokes `read` by default and passes the path to it', t => {
   logs({ inventory, pathToCode: path }, function done (err) {
     if (err) t.fail(err)
     else {
-      t.equals(fakeTwo.lastCall.args[0].pathToCode, path, 'pathToCode passed to read method')
+      t.equal(fakeTwo.lastCall.args[0].pathToCode, path, 'pathToCode passed to read method')
     }
     sinon.restore()
   })
@@ -54,8 +56,15 @@ test('`logs` invokes `destroy` when specified via args and passes the path to it
   logs({ inventory, pathToCode: path, destroy: true }, function done (err) {
     if (err) t.fail(err)
     else {
-      t.equals(fakeTwo.lastCall.args[0].pathToCode, path, 'pathToCode passed to destroy method')
+      t.equal(fakeTwo.lastCall.args[0].pathToCode, path, 'pathToCode passed to destroy method')
     }
     sinon.restore()
   })
+})
+
+test('Tear down env', t => {
+  t.plan(1)
+  delete process.env.AWS_ACCESS_KEY_ID
+  delete process.env.AWS_SECRET_ACCESS_KEY
+  t.pass('Tore down env')
 })
