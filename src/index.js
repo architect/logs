@@ -48,7 +48,10 @@ module.exports = function logs (params = {}, callback) {
     pretty.notFound(pathToCode)
   }
   else {
-    awsLite({ region: inventory.inv.aws.region })
+    awsLite({
+      profile: inventory.inv.aws.profile,
+      region: inventory.inv.aws.region,
+    })
       .then(aws => {
         let args = { aws, inventory, ts, name, pathToCode, verbose }
         // TODO refactor sinon out so we don't have to call module.exports methods
