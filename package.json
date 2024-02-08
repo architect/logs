@@ -33,11 +33,11 @@
     "src/*"
   ],
   "dependencies": {
-    "@architect/inventory": "~4.0.2",
-    "@architect/utils": "~4.0.1",
-    "@aws-lite/client": "^0.16.1",
-    "@aws-lite/cloudformation": "^0.0.3",
-    "@aws-lite/cloudwatch-logs": "^0.0.3",
+    "@architect/inventory": "~4.0.3",
+    "@architect/utils": "~4.0.2",
+    "@aws-lite/client": "^0.17.1",
+    "@aws-lite/cloudformation": "^0.0.4",
+    "@aws-lite/cloudwatch-logs": "^0.0.4",
     "chalk": "4.1.2",
     "minimist": "~1.2.8",
     "run-parallel": "~1.2.0",

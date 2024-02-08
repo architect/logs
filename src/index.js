@@ -51,6 +51,10 @@ module.exports = function logs (params = {}, callback) {
     awsLite({
       profile: inventory.inv.aws.profile,
       region: inventory.inv.aws.region,
+      plugins: [
+        import('@aws-lite/cloudformation'),
+        import('@aws-lite/cloudwatch-logs'),
+      ],
     })
       .then(aws => {
         let args = { aws, inventory, ts, name, pathToCode, verbose }
