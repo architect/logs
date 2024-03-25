@@ -33,9 +33,9 @@
     "src/*"
   ],
   "dependencies": {
-    "@architect/inventory": "~4.0.3",
-    "@architect/utils": "~4.0.2",
-    "@aws-lite/client": "^0.17.1",
+    "@architect/inventory": "~4.0.4",
+    "@architect/utils": "~4.0.4",
+    "@aws-lite/client": "^0.20.0",
     "@aws-lite/cloudformation": "^0.0.4",
     "@aws-lite/cloudwatch-logs": "^0.0.4",
     "chalk": "4.1.2",
@@ -47,13 +47,13 @@
   "devDependencies": {
     "@architect/eslint-config": "~2.1.2",
     "cross-env": "~7.0.3",
-    "eslint": "~8.56.0",
+    "eslint": "~8.57.0",
     "mock-require": "~3.0.3",
-    "mock-tmp": "~0.0.2",
+    "mock-tmp": "~0.0.3",
     "nyc": "^15.1.0",
     "sinon": "~17.0.1",
     "tap-arc": "~1.2.2",
-    "tape": "~5.7.4"
+    "tape": "~5.7.5"
   },
   "eslintConfig": {
     "extends": "@architect/eslint-config"
