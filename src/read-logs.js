@@ -37,7 +37,7 @@ function read ({ aws, name }, callback) {
       aws.cloudwatchlogs.DescribeLogStreams({
         logGroupName: name,
         descending: true,
-        orderBy: 'LastEventTime'
+        orderBy: 'LastEventTime',
       })
         .then(data => callback(null, data))
         .catch(err => {
@@ -70,6 +70,6 @@ function read ({ aws, name }, callback) {
         let events = results.map(r => r.events).reduce((a, b) => a.concat(b))
         callback(null, events)
       }
-    }
+    },
   ], callback)
 }

@@ -6,7 +6,7 @@ module.exports = {
   success (ts) {
     let check = chalk.green('✓')
     let msg = chalk.grey('Logs')
-    let time = chalk.green.bold((Date.now() - ts) / 1000 + ' seconds')
+    let time = chalk.green.bold(((Date.now() - ts) / 1000) + ' seconds')
     console.log(check, msg, time)
   },
 
@@ -47,7 +47,7 @@ module.exports = {
               console.log(color(JSON.stringify(json, null, 2)))
             }
           }
-          catch (e) {
+          catch {
             // not json, just print
             console.log(color(item.trim()))
           }
@@ -55,5 +55,5 @@ module.exports = {
         console.log(' ')
       }
     })
-  }
+  },
 }

@@ -9,17 +9,17 @@ let inventory
 function setUp () {
   let fakePluginPath = join('src', 'plugins', 'myplugin.js')
   let tmp = mockTmp({
-    [fakePluginPath]: '// fake file contents'
+    [fakePluginPath]: '// fake file contents',
   })
   mockRequire(join(tmp, fakePluginPath), {
     set: {
       customLambdas: () => {
         return {
           name: 'a-custom-lambda',
-          src: join('src', 'myplugin', 'custom-funk')
+          src: join('src', 'myplugin', 'custom-funk'),
         }
-      }
-    }
+      },
+    },
   })
   return tmp
 }
