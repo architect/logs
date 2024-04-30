@@ -3,7 +3,6 @@ let minimist = require('minimist')
 let { banner } = require('@architect/utils')
 let _inventory = require('@architect/inventory')
 let { version } = require('../package.json')
-let validate = require('./validate')
 let logs = require('.')
 
 /**
@@ -14,9 +13,6 @@ let logs = require('.')
  */
 async function main (opts = {}) {
   let { inventory } = opts
-
-  // Validate for expected env and check for potential creds issues
-  validate()
 
   if (!inventory) inventory = await _inventory({})
 

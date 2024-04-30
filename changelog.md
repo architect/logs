@@ -2,6 +2,14 @@
 
 ---
 
+## [5.0.5] 2024-04-30
+
+### Fixed
+
+- Removed unnecessary legacy validation
+
+---
+
 ## [5.0.4] 2024-04-29
 
 ### Changed
