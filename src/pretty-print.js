@@ -1,4 +1,4 @@
-let chalk = require('chalk')
+let chalk = require('@architect/utils/chalk')
 let strftime = require('strftime')
 
 module.exports = {

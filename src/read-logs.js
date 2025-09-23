@@ -1,5 +1,5 @@
-let parallel = require('run-parallel')
-let waterfall = require('run-waterfall')
+let { parallel, waterfall } = require('@architect/utils')
+
 let getPhysicalID = require('./get-physical-id')
 let pretty = require('./pretty-print')
 let getLogicalID = require('./get-logical-id')
