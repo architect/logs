@@ -2,6 +2,14 @@
 
 ---
 
+## [6.0.0] 2024-09-24
+
+### Fixed
+
+- Updated deps and moved to node > 20
+
+---
+
 ## [5.0.5] 2024-04-30
 
 ### Fixed
