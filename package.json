@@ -15,7 +15,7 @@
     "rc": "npm version prerelease --preid RC"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "repository": {
     "type": "git",
@@ -34,8 +34,8 @@
     "src/*"
   ],
   "dependencies": {
-    "@architect/inventory": "~5.0.0",
-    "@architect/utils": "~5.0.0",
+    "@architect/inventory": "~6.0.0-RC.0",
+    "@architect/utils": "~6.0.0-RC.1",
     "@aws-lite/client": "^0.23.2",
     "@aws-lite/cloudformation": "^0.1.3",
     "@aws-lite/cloudwatch-logs": "^0.1.0",
