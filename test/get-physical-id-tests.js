@@ -1,48 +1,61 @@
-/* let test = require('tape')
-let aws = require('aws-sdk')
-let awsMock = require('aws-sdk-mock')
-awsMock.setSDKInstance(aws)
-const sinon = require('sinon')
-let resourceStub = { StackResourceSummaries: [] }
-let fake = sinon.fake.yields(null, resourceStub)
-awsMock.mock('CloudFormation', 'listStackResources', fake)
-let getPhysicalID = require('../src/get-physical-id')
+const { describe, it, after } = require('node:test')
+const assert = require('node:assert/strict')
+const getPhysicalID = require('../src/get-physical-id')
 
-test('should return only return Lambda Function resource types', t => {
-  t.plan(1)
-  resourceStub.StackResourceSummaries = [
-    { ResourceType: 'AWS::Lambda::Function', LogicalResourceId: 'lambda', PhysicalResourceId: 'one' },
-    { ResourceType: 'AWS::Lambda::NotAFunction', LogicalResourceId: 'lambda', PhysicalResourceId: 'two' }
-  ]
-  getPhysicalID({ name: 'stackname', logicalID: 'lambda' }, function (err, id) {
-    if (err) t.fail('unexpected error in callback')
-    else t.equals(id, 'one')
+describe('getPhysicalID', () => {
+  after(() => {
+    // Cleanup if needed
+  })
+
+  it('should return only Lambda Function resource types', (t, done) => {
+    const mockAws = {
+      cloudformation: {
+        ListStackResources: ({ StackName, paginate }) => {
+          assert.strictEqual(StackName, 'stackname', 'Stack name passed correctly')
+          assert.strictEqual(paginate, true, 'Paginate flag set to true')
+
+          return Promise.resolve({
+            StackResourceSummaries: [
+              { ResourceType: 'AWS::Lambda::Function', LogicalResourceId: 'lambda', PhysicalResourceId: 'one' },
+              { ResourceType: 'AWS::Lambda::NotAFunction', LogicalResourceId: 'lambda', PhysicalResourceId: 'two' },
+            ],
+          })
+        },
+      },
+    }
+
+    getPhysicalID({ aws: mockAws, name: 'stackname', logicalID: 'lambda' }, (err, id) => {
+      assert.ifError(err, 'No error in callback')
+      assert.strictEqual(id, 'one', 'Returns correct physical ID for Lambda function')
+      done()
+    })
+  })
+
+  it('should be able to paginate through multiple pages of results from CloudFormation', (t, done) => {
+    const mockAws = {
+      cloudformation: {
+        ListStackResources: ({ StackName, paginate }) => {
+          assert.strictEqual(StackName, 'stackname', 'Stack name passed correctly')
+          assert.strictEqual(paginate, true, 'Paginate flag set to true')
+
+          // Simulate pagination by returning all results at once
+          // (aws-lite handles pagination internally)
+          return Promise.resolve({
+            StackResourceSummaries: [
+              { ResourceType: 'AWS::Lambda::Function', LogicalResourceId: 'alpha', PhysicalResourceId: 'one' },
+              { ResourceType: 'AWS::Lambda::Function', LogicalResourceId: 'beta', PhysicalResourceId: 'two' },
+              { ResourceType: 'AWS::Lambda::Function', LogicalResourceId: 'delta', PhysicalResourceId: 'three' },
+              { ResourceType: 'AWS::Lambda::Function', LogicalResourceId: 'gamma', PhysicalResourceId: 'four' },
+            ],
+          })
+        },
+      },
+    }
+
+    getPhysicalID({ aws: mockAws, name: 'stackname', logicalID: 'gamma' }, (err, id) => {
+      assert.ifError(err, 'No error in callback')
+      assert.strictEqual(id, 'four', 'Returns correct physical ID from paginated results')
+      done()
+    })
   })
 })
-
-test('should be able to paginate through multiple pages of results from CloudFormation', t => {
-  t.plan(1)
-  let pagefake = sinon.fake(function (params, callback) {
-    if (params.NextToken) {
-      resourceStub.StackResourceSummaries = [
-        { ResourceType: 'AWS::Lambda::Function', LogicalResourceId: 'gamma', PhysicalResourceId: 'four' }
-      ]
-    }
-    else {
-      resourceStub.StackResourceSummaries = [
-        { ResourceType: 'AWS::Lambda::Function', LogicalResourceId: 'alpha', PhysicalResourceId: 'one' },
-        { ResourceType: 'AWS::Lambda::Function', LogicalResourceId: 'beta', PhysicalResourceId: 'two' },
-        { ResourceType: 'AWS::Lambda::Function', LogicalResourceId: 'delta', PhysicalResourceId: 'three' }
-      ]
-      resourceStub.NextToken = '123'
-    }
-    callback(null, resourceStub)
-  })
-  awsMock.remock('CloudFormation', 'listStackResources', pagefake)
-  getPhysicalID({ name: 'stackname', logicalID: 'gamma' }, function (err, id) {
-    if (err) t.fail('unexpected error in callback', err)
-    else t.equals(id, 'four')
-    awsMock.restore()
-  })
-})
- */
